@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ankivalenz"
+version = "0.1.0"
+description = ""
+authors = ["Harry Vangberg <harry@vangberg.name>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+ankivalenz = "ankivalenz.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bs4 = "^0.0.1"
+genanki = "^0.13.0"
+typer = "^0.6.1"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.1.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

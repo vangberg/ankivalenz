@@ -1,0 +1,5 @@
+.Rhistory
+.Rproj.user
+__pycache__
+*.apkg
+dist

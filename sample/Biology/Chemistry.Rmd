@@ -1,0 +1,15 @@
+---
+title: "Chemistry"
+output:
+  html_fragment:
+    self_contained: false
+    pandoc_args: ["--lua-filter", "math-delimeters.lua"]
+---
+
+# Chemistry
+
+## Bonds
+
+-   Covalent bond :: electrons are shared
+
+-   Ionic bond :: electrons are transferred
