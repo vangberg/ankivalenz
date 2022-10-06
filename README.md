@@ -66,8 +66,6 @@ Anki and go to File -> Import, and find `Notes.apkg`.
 
 The new Anki deck will have two notes:
 
-// Turn the following table into a Github Flavored Markdown table:
-
 | Question    | Answer                     | Path         |
 | ----------- | -------------------------- | ------------ |
 | Prokaryotic | does not contain a nucleus | Cell > Types |
