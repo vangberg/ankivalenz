@@ -6,7 +6,7 @@ Ankivalenz is a tool for generating Anki notes from HTML files.
 
 In this walk-through we will write our notes as Markdown files, use
 pandoc[^pandoc] to convert them to HTML, and finally use Ankivalenz to
-generate an Anki deck with cards extracted from our notes.
+generate an Anki deck with Anki notes extracted from our Markdown files.
 
 ### Installation
 
@@ -62,7 +62,7 @@ $ ankivalenz run .
 This generates a file `Notes.apkg` that can be imported to Anki. Open
 Anki and go to File -> Import, and find `Notes.apkg`.
 
-### Review cards
+### Review
 
 The new Anki deck will have two notes:
 
@@ -75,4 +75,86 @@ This is what the first note looks like in Anki:
 
 ![Anki review](images/anki-review.png)
 
+## Syntax
+
+### Front/back cards
+
+Ankivalenz supports front/back cards, where the front is the question
+and the back is the answer. To create a front/back card, add a new list item
+with the question, followed by `?::` and the answer:
+
+```markdown
+- Color of the sun ?:: Yellow
+```
+
+You can flip the order of the question and answer by using `::?` instead:
+
+```markdown
+- Anwer ::? Question
+```
+
+Two-way notes can be created with `::`:
+
+```markdown
+- Side 1 :: Side 2
+```
+
+This will create two cards in Anki:
+
+| Front  | Back   |
+| ------ | ------ |
+| Side 1 | Side 2 |
+| Side 2 | Side 1 |
+
+### Cloze cards
+
+Ankivalenz supports cloze deletion[^cloze], where the answer is hidden in the
+question. To create a cloze card, add a new list item with the question,
+using Anki's cloze syntax:
+
+```markdown
+- The {{c1::sun}} is {{c2::yellow}}.
+```
+
+### Nested lists
+
+Lists can be nested:
+
+```markdown
+- Solar System
+  - Star ?:: Sun
+  - Planet
+    - Earth ?:: Blue
+    - Mars ?:: Red
+```
+
+The headings for the nested lists become a part of the notes' paths:
+
+| Question | Answer | Path                  |
+| -------- | ------ | --------------------- |
+| Star     | Sun    | Solar System          |
+| Earth    | Blue   | Solar System > Planet |
+| Mars     | Red    | Solar System > Planet |
+
+### Math
+
+If you are writing Markdown files, and use pandoc to convert them,
+the following syntaxes for math are supported:
+
+```markdown
+- Inline math: $1 + 2$
+- Display math: $$1 + 2$$
+```
+
+With the `--mathjax` flag, pandoc will generate the correct markup,
+using `\( ... \)` as delimeters for inline math, and `\[ ... \]` as
+delimeters for display math:
+
+```
+$ pandoc --mathjax Note.md > Note.html
+```
+
+---
+
 [^pandoc]: https://pandoc.org/
+[^cloze]: https://docs.ankiweb.net/editing.html#cloze-deletion
