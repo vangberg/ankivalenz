@@ -2,6 +2,7 @@ from datetime import datetime
 import json
 import os
 import pathlib
+import random
 from typing import List, Optional
 
 from ankivalenz import HtmlParser, NodeParser
@@ -54,6 +55,23 @@ def load_cards(path: pathlib.Path) -> List[Card]:
             cards.extend(NodeParser().parse(HtmlParser().parse(f.read())))
 
     return cards
+
+
+def init(path: pathlib.Path) -> str:
+    deck_id = random.randrange(1 << 30, 1 << 31)
+    # set deck_name to the name of the directory:
+    deck_name = path.name
+    json_path = path / "ankivalenz.json"
+
+    with open(json_path, "w") as f:
+        json.dump(
+            {"deck_id": deck_id, "deck_name": deck_name},
+            f,
+            indent=4,
+            sort_keys=True,
+        )
+
+    return json_path
 
 
 def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Package:
