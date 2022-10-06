@@ -29,7 +29,7 @@ Ankivalenz needs a configuration file, containing the name and ID of the
 Anki deck. This can be generated with `ankivalenz init`:
 
 ```
-$ ankivalenz init
+$ ankivalenz init .
 ```
 
 ### Write a note
