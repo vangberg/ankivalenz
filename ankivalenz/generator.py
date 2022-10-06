@@ -13,11 +13,12 @@ import genanki
 class Note(genanki.Note):
     pass
 
+
 def format_path(path: Path) -> str:
     return ' > '.join(path)
 
 
-def notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
+def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
     if time is None:
         time = datetime.now()
 
@@ -45,25 +46,28 @@ def notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
     return notes
 
 
+def load_cards(path: pathlib.Path) -> List[Card]:
+    cards = []
+
+    for file in path.glob('**/*.html'):
+        with file.open() as f:
+            cards.extend(NodeParser().parse(HtmlParser().parse(f.read())))
+
+    return cards
+
+
 def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Package:
     with open(os.path.join(path, 'ankivalenz.json')) as f:
         settings = json.load(f)
 
-    cards: List[Card] = []
-
-    html_parser = HtmlParser()
-    node_parser = NodeParser()
-
-    for file in path.glob('**/*.html'):
-        with file.open() as f:
-            cards.extend(node_parser.parse(html_parser.parse(f.read())))
+    cards = load_cards(path)
 
     deck = genanki.Deck(
         settings['deck_id'],
         settings['deck_name'],
     )
 
-    for note in notes(cards, time=time):
+    for note in cards_to_notes(cards, time=time):
         deck.add_note(note)
 
     package = genanki.Package(deck)
