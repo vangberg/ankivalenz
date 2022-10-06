@@ -1,16 +1,19 @@
 from dataclasses import dataclass, field
 from typing import Tuple, Union
 
+
 @dataclass
 class Delimeter:
     contents: str
 
-PathNode = Tuple[str, list['Node']]
+
+PathNode = Tuple[str, list["Node"]]
 BasicNode = Tuple[str, Delimeter, str]
 StandaloneNode = Tuple[Delimeter, str]
 ClozeNode = Tuple[str]
 
 Node = Union[PathNode, BasicNode, StandaloneNode, ClozeNode]
+
 
 @dataclass
 class BasicCard:

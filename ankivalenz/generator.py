@@ -15,7 +15,7 @@ class Note(genanki.Note):
 
 
 def format_path(path: Path) -> str:
-    return ' > '.join(path)
+    return " > ".join(path)
 
 
 def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
@@ -24,7 +24,7 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
 
     notes = []
 
-    updated_tag = 'ankivalenz:updated:{}'.format(int(time.timestamp()))
+    updated_tag = "ankivalenz:updated:{}".format(int(time.timestamp()))
 
     for card in cards:
         if isinstance(card, BasicCard):
@@ -32,14 +32,14 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
                 model=BASIC_AND_REVERSED_CARD_MODEL if card.reverse else BASIC_MODEL,
                 fields=[card.question, card.answer, format_path(card.path)],
                 # Add tag `ankivalenz:updated:<time in epoch>` to note.
-                tags=[updated_tag]
+                tags=[updated_tag],
             )
             notes.append(note)
         if isinstance(card, ClozeCard):
             note = Note(
                 model=CLOZE_MODEL,
                 fields=[card.question, "", format_path(card.path)],
-                tags=[updated_tag]
+                tags=[updated_tag],
             )
             notes.append(note)
 
@@ -49,7 +49,7 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
 def load_cards(path: pathlib.Path) -> List[Card]:
     cards = []
 
-    for file in path.glob('**/*.html'):
+    for file in path.glob("**/*.html"):
         with file.open() as f:
             cards.extend(NodeParser().parse(HtmlParser().parse(f.read())))
 
@@ -57,14 +57,14 @@ def load_cards(path: pathlib.Path) -> List[Card]:
 
 
 def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Package:
-    with open(os.path.join(path, 'ankivalenz.json')) as f:
+    with open(os.path.join(path, "ankivalenz.json")) as f:
         settings = json.load(f)
 
     cards = load_cards(path)
 
     deck = genanki.Deck(
-        settings['deck_id'],
-        settings['deck_name'],
+        settings["deck_id"],
+        settings["deck_name"],
     )
 
     for note in cards_to_notes(cards, time=time):
@@ -72,7 +72,7 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
 
     package = genanki.Package(deck)
 
-    for file in path.glob('images/*'):
+    for file in path.glob("images/*"):
         package.media_files.append(str(file))
 
     return package

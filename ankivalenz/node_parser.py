@@ -1,11 +1,14 @@
 from typing import List
 from .types import Node, Delimeter, BasicCard, Card, ClozeCard
 
+
 class NodeParser:
-    def parse(self, nodes: List[Node], cards: List[Card] = None, path: List[str] = None) -> List[Card]:
+    def parse(
+        self, nodes: List[Node], cards: List[Card] = None, path: List[str] = None
+    ) -> List[Card]:
         if cards is None:
             cards = []
-        
+
         if path is None:
             path = []
 
@@ -19,7 +22,9 @@ class NodeParser:
             case (str(question)):
                 return cards.append(ClozeCard(question, path.copy()))
             case (Delimeter("::"), str(answer)):
-                return cards.append(BasicCard(path[-1], answer, path[:-1], reverse=True))
+                return cards.append(
+                    BasicCard(path[-1], answer, path[:-1], reverse=True)
+                )
             case (Delimeter("?::"), str(answer)):
                 return cards.append(BasicCard(path[-1], answer, path[:-1]))
             case (Delimeter("::?"), str(question)):
@@ -29,6 +34,8 @@ class NodeParser:
             case (str(answer), Delimeter("::?"), str(question)):
                 return cards.extend([BasicCard(question, answer, path.copy())])
             case (str(question), Delimeter("::"), str(answer)):
-                return cards.extend([BasicCard(question, answer, path.copy(), reverse=True)])
-                
+                return cards.extend(
+                    [BasicCard(question, answer, path.copy(), reverse=True)]
+                )
+
         return cards
