@@ -75,6 +75,6 @@ The new Anki deck will have two notes:
 
 This is what the first note looks like in Anki:
 
-![Anki review](anki-review.png)
+![Anki review](images/anki-review.png)
 
 [^pandoc]: https://pandoc.org/
