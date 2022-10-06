@@ -10,9 +10,9 @@ class Delimeter:
 PathNode = Tuple[str, list["Node"]]
 BasicNode = Tuple[str, Delimeter, str]
 StandaloneNode = Tuple[Delimeter, str]
-ClozeNode = Tuple[str]
+ClozeNode = str
 
-Node = Union[PathNode, BasicNode, StandaloneNode, ClozeNode]
+Node = Union[list["Node"], PathNode, BasicNode, StandaloneNode, ClozeNode]
 
 
 @dataclass

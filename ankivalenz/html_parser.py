@@ -3,7 +3,7 @@ import re
 from typing import List
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
-from .types import Delimeter, Node
+from .types import ClozeNode, Delimeter, Node
 
 BASIC_REGEXP = r"(.*?)\s*(::\?|\?::|::)\s*(.*)"
 STANDALONE_REGEXP = r"^(::\?|\?::|::)\s*(.*)"
@@ -40,7 +40,7 @@ class HtmlParser:
                 self.strip_image_paths(e.contents)
 
     def find_nodes(self, elements: List[PageElement]) -> List[Node]:
-        nodes = []
+        nodes: List[Node] = []
 
         for idx, element in enumerate(elements):
             if isinstance(element, Tag):
@@ -97,7 +97,7 @@ class HtmlParser:
                     nodes.extend(self.find_nodes(element.contents))
             elif isinstance(element, NavigableString):
                 if match := re.match(CLOZE_REGEXP, str(element)):
-                    nodes.append((str(element)))
+                    nodes.append(str(element))
                     break
                 elif match := re.match(STANDALONE_REGEXP, str(element)):
                     delimeter_type, after_match = match.groups()

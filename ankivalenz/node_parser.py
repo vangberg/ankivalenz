@@ -4,7 +4,7 @@ from .types import Node, Delimeter, BasicCard, Card, ClozeCard
 
 class NodeParser:
     def parse(
-        self, nodes: List[Node], cards: List[Card] = None, path: List[str] = None
+        self, nodes: Node, cards: List[Card] = None, path: List[str] = None
     ) -> List[Card]:
         if cards is None:
             cards = []
@@ -19,7 +19,7 @@ class NodeParser:
             case (str(header), list(l)):
                 path.append(header)
                 return self.parse(l, cards, path.copy())
-            case (str(question)):
+            case str(question):
                 return cards.append(ClozeCard(question, path.copy()))
             case (Delimeter("::"), str(answer)):
                 return cards.append(
