@@ -108,6 +108,20 @@ This will create two cards in Anki:
 | Side 1 | Side 2 |
 | Side 2 | Side 1 |
 
+#### Standalone questions/answers
+
+Sometimes you want to create a note refering to the parent heading.
+This can be done with standalone questions/answers:
+
+```markdown
+- Sun
+  - ::? The star in our solar system
+```
+
+This will create a note with the answer "Sun" and the question "The star
+in our solar system". The other types of delimeters ("::" and "?::") can
+be used in the same way.
+
 ### Cloze cards
 
 Ankivalenz supports cloze deletion[^cloze], where the answer is hidden in the
