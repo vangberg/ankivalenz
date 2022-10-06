@@ -8,25 +8,31 @@ from ankivalenz.types import BasicCard
 class TestLoadCards:
     def test_loads_cards(self):
         cards = load_cards(pathlib.Path("sample/Biology"))
-
+        print(repr(cards))
         assert sorted(
             [
                 BasicCard(
                     question="Covalent bond",
                     answer="electrons are shared",
-                    path=["Chemistry", "Bonds"],
+                    path=["Chemistrys", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
                     question="Ionic bond",
                     answer="electrons are transferred",
-                    path=["Chemistry", "Bonds"],
+                    path=["Chemistrys", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
-                    question="\\(A + B\\)",
-                    answer="\\(C\\)",
-                    path=["Chemistry", "Reaction"],
+                    question='<span class="math inline">\\(A + B\\)</span>',
+                    answer='<span class="math inline">\\(\\dfrac{C}{D}\\)</span>',
+                    path=["Chemistrys", "Reaction"],
+                    reverse=False,
+                ),
+                BasicCard(
+                    question="Math",
+                    answer='<br/>\n<img src="flagella.png" width="150"/><br/>\n<span class="math display">\\[\n1 + 2 = \\dfrac{3}{4}\n\\]</span>',
+                    path=["Chemistrys", "Reaction"],
                     reverse=False,
                 ),
                 BasicCard(
@@ -108,9 +114,6 @@ class TestPackage:
                 "sample/Biology/images/prokaryotic-capsule.png",
             ]
         ) == sorted(self.package.media_files)
-
-    def test_notes(self):
-        assert 12 == len(self.deck.notes)
 
     def test_tag(self):
         assert "ankivalenz:updated:12345" == self.deck.notes[0].tags[0]

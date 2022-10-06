@@ -5,8 +5,6 @@ import pathlib
 import random
 from typing import List, Optional
 
-import marko
-
 from ankivalenz import HtmlParser, NodeParser
 from .anki_models import BASIC_AND_REVERSED_CARD_MODEL, BASIC_MODEL, CLOZE_MODEL
 from .types import BasicCard, Card, ClozeCard, Path
@@ -52,14 +50,9 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
 def load_cards(path: pathlib.Path) -> List[Card]:
     cards = []
 
-    # for file in path.glob("**/*.html"):
-    # with file.open() as f:
-    # cards.extend(NodeParser().parse(HtmlParser().parse(f.read())))
-
-    for file in path.glob("**/*.md"):
+    for file in path.glob("**/*.html"):
         with file.open() as f:
-            html = marko.convert(f.read())
-            nodes = HtmlParser().parse(html)
+            nodes = HtmlParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
 
     return cards

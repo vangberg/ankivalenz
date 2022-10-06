@@ -100,23 +100,25 @@ class HtmlParser:
                 else:
                     nodes.extend(self.find_nodes(element.contents))
             elif isinstance(element, NavigableString):
-                if match := re.match(CLOZE_REGEXP, str(element)):
-                    nodes.append(str(element))
+                if match := re.match(CLOZE_REGEXP, str(element), re.DOTALL):
+                    nodes.append(str(element).strip())
                     break
-                elif match := re.match(STANDALONE_REGEXP, str(element)):
+                elif match := re.match(STANDALONE_REGEXP, str(element), re.DOTALL):
                     delimeter_type, after_match = match.groups()
 
                     after = after_match + "".join(map(str, elements[idx + 1 :]))
 
-                    nodes.append((Delimeter(delimeter_type), after))
+                    nodes.append((Delimeter(delimeter_type), after.strip()))
                     break
-                elif match := re.match(BASIC_REGEXP, str(element)):
+                elif match := re.match(BASIC_REGEXP, str(element), re.DOTALL):
                     before_match, delimeter_type, after_match = match.groups()
 
                     before = "".join(map(str, elements[:idx])) + before_match
                     after = after_match + "".join(map(str, elements[idx + 1 :]))
 
-                    nodes.append((before, Delimeter(delimeter_type), after))
+                    nodes.append(
+                        (before.strip(), Delimeter(delimeter_type), after.strip())
+                    )
                     break
 
         return nodes

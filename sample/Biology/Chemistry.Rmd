@@ -1,8 +1,8 @@
 ---
 title: "Chemistry"
 output:
-  md_document:
-    pandoc_args: ["--lua-filter", "math-delimeters.lua"]
+  html_fragment:
+    self_contained: false
 ---
 
 # Chemistry
@@ -15,4 +15,9 @@ output:
 
 ## Reaction
 
--   $A + B$ ?:: $C$
+-   $A + B$ ?:: $\dfrac{C}{D}$
+-   Math ?::\
+    ![](images/flagella.png){width="150"}\
+    $$
+    1 + 2 = \dfrac{3}{4}
+    $$

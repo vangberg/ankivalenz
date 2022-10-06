@@ -13,7 +13,6 @@ python = "^3.10"
 bs4 = "^0.0.1"
 genanki = "^0.13.0"
 typer = "^0.6.1"
-marko = "^1.2.2"
 
 
 [tool.poetry.group.test.dependencies]

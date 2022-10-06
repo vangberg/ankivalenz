@@ -250,3 +250,38 @@ class TestStandalone:
         nodes = HtmlParser().parse(md)
 
         assert [("Header", [(Delimeter("::"), "Standalone two-way")])] == nodes
+
+
+class TestMath:
+    def test_inline_math(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>Question ?:: Answer \\(\\sin^2\\)</li>
+        </ul>
+        """
+        )
+
+        nodes = HtmlParser().parse(md)
+
+        assert [("Question", Delimeter("?::"), "Answer \\(\\sin^2\\)")] == nodes
+
+    def test_block_math(self):
+        md = textwrap.dedent(
+            """
+            <ul>
+            <li>Question ?::
+            Answer
+            \\[
+            \\sin^2
+            \\]
+            </li>
+            </ul>
+            """
+        )
+
+        print(md)
+
+        nodes = HtmlParser().parse(md)
+
+        assert [("Question", Delimeter("?::"), "Answer\n\\[\n\\sin^2\n\\]")] == nodes

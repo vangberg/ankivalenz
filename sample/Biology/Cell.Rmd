@@ -1,10 +1,8 @@
 ---
 title: "Cell"
 output:
-  md_document:
-    pandoc_args: [
-      "--lua-filter", "math-delimeters.lua"
-    ]
+  html_fragment:
+    self_contained: false
 ---
 
 # Cell
