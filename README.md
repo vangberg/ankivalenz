@@ -1,21 +1,77 @@
-# AnkiValenz
+# Ankivalenz
 
-## Deck ID
+Ankivalenz is a tool for generating Anki notes from HTML files.
 
-```
-import random; random.randrange(1 << 30, 1 << 31)
-```
+## Tutorial
 
-## Usage
+In this walk-through we will write our notes as Markdown files, use
+pandoc[^pandoc] to convert them to HTML, and finally use Ankivalenz to
+generate an Anki deck with cards extracted from our notes.
 
-```
-python3 -m ankivalenz sample/Biology/
-```
+### Installation
 
-## Tests
-
-### Run a single test
+Ankivalenz is distributed as a Python package, and requires Python 3.10+. To install:
 
 ```
-python3 -m unittest tests.test_samples.TestPath.test_method
+$ pip3 install ankivalenz
 ```
+
+### Initialize project
+
+Create a folder for your notes:
+
+```
+$ mkdir Notes
+$ cd Notes
+```
+
+Ankivalenz needs a configuration file, containing the name and ID of the
+Anki deck. This can be generated with `ankivalenz init`:
+
+```
+$ ankivalenz init
+```
+
+### Write note
+
+Add the following to a file named `Cell.md`:
+
+```markdown
+# Cell
+
+## Types
+
+- Prokaryotic ?:: does not contain a nucleus
+- Eukaryotic ?:: contains a nucleus
+```
+
+### Generate Anki deck
+
+Convert it to HTML:
+
+```
+$ pandoc Cell.md > Cell.html
+```
+
+And run Ankivalenz:
+
+```
+$ ankivalenz run .
+```
+
+This generates a file `Notes.apkg` that can be imported to Anki. Open
+Anki and go to File -> Import, and find `Notes.apkg`.
+
+### Review cards
+
+The new Anki deck will have two notes:
+
+| Question | Answer | Path |
+| Prokaryotic | does not contain a nucleus | Cell > Types |
+| Eukaryotic | contains a nucleus | Cell > Types |
+
+This is what the first note looks like in Anki:
+
+![Anki review](anki-review.png)
+
+[^pandoc]: https://pandoc.org/
