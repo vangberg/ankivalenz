@@ -23,6 +23,12 @@ class TestLoadCards:
                 reverse=True,
             ),
             BasicCard(
+                question="\\(A + B\\)",
+                answer="\\(C\\)",
+                path=["Chemistry", "Reaction"],
+                reverse=False,
+            ),
+            BasicCard(
                 question="Prokaryotic",
                 answer="does <strong>not</strong> contain a nucleus",
                 path=["Cell", "Types"],
@@ -102,7 +108,7 @@ class TestPackage:
         ) == sorted(self.package.media_files)
 
     def test_notes(self):
-        assert 11 == len(self.deck.notes)
+        assert 12 == len(self.deck.notes)
 
     def test_tag(self):
         assert "ankivalenz:updated:12345" == self.deck.notes[0].tags[0]
