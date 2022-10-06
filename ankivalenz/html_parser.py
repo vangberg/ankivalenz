@@ -88,7 +88,11 @@ class HtmlParser:
                         # we do not consider the nested list, and simply skip it.
                         for e in head:
                             if isinstance(e, Tag):
-                                header = "".join(map(str, e.contents))
+                                if e.name == "p":
+                                    header = "".join(map(str, e.contents))
+                                else:
+                                    header = str(e)
+
                                 nodes.append((header, self.find_nodes(tail)))
                                 break
                     else:

@@ -15,7 +15,7 @@ ClozeNode = str
 Node = Union[list["Node"], PathNode, BasicNode, StandaloneNode, ClozeNode]
 
 
-@dataclass
+@dataclass(order=True)
 class BasicCard:
     question: str
     answer: str
@@ -23,7 +23,7 @@ class BasicCard:
     reverse: bool = False
 
 
-@dataclass
+@dataclass(order=True)
 class ClozeCard:
     question: str
     path: list[str]

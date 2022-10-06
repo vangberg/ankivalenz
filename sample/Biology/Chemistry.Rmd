@@ -1,8 +1,7 @@
 ---
 title: "Chemistry"
 output:
-  html_fragment:
-    self_contained: false
+  md_document:
     pandoc_args: ["--lua-filter", "math-delimeters.lua"]
 ---
 

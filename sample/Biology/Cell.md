@@ -1,12 +1,3 @@
----
-title: "Cell"
-output:
-  md_document:
-    pandoc_args: [
-      "--lua-filter", "math-delimeters.lua"
-    ]
----
-
 # Cell
 
 ## Types
@@ -25,12 +16,12 @@ output:
 
 -   Capsule
 
-    -   ::?\
-        ![](images/prokaryotic-capsule.png){width="150"}
+    -   ::?  
+        <img src="images/prokaryotic-capsule.png" width="150" />
 
 ## Flagella
 
--   ![](images/flagella.png){width="150"}
+-   <img src="images/flagella.png" width="150" />
 
     -   a ?:: Monotrichous
 

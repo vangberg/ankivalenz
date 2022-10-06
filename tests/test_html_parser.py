@@ -187,6 +187,26 @@ class TestNestedList:
 
         assert [("Question", [(Delimeter("?::"), "Standalone answer")])] == nodes
 
+    def test_nested_list_and_image(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>
+                <p><img src="bar.png"/></p>
+                <ul>
+                    <li>Question ?:: Answer</li>
+                </ul>
+            </li>
+        </ul>
+        """
+        )
+
+        nodes = HtmlParser().parse(md)
+
+        assert [
+            ('<img src="bar.png"/>', [("Question", Delimeter("?::"), "Answer")])
+        ] == nodes
+
 
 class TestStandalone:
     def test_header_and_standalone_answer(self):
