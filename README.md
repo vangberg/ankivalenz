@@ -32,7 +32,7 @@ Anki deck. This can be generated with `ankivalenz init`:
 $ ankivalenz init
 ```
 
-### Write note
+### Write a note
 
 Add the following to a file named `Cell.md`:
 
@@ -93,6 +93,8 @@ You can flip the order of the question and answer by using `::?` instead:
 - Anwer ::? Question
 ```
 
+#### Two-way notes
+
 Two-way notes can be created with `::`:
 
 ```markdown
@@ -139,7 +141,7 @@ The headings for the nested lists become a part of the notes' paths:
 ### Math
 
 If you are writing Markdown files, and use pandoc to convert them,
-the following syntaxes for math are supported:
+the following syntax for math is supported:
 
 ```markdown
 - Inline math: $1 + 2$
@@ -153,8 +155,6 @@ delimeters for display math:
 ```
 $ pandoc --mathjax Note.md > Note.html
 ```
-
----
 
 [^pandoc]: https://pandoc.org/
 [^cloze]: https://docs.ankiweb.net/editing.html#cloze-deletion
