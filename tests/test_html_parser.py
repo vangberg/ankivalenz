@@ -32,7 +32,7 @@ class TestHeaders:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header A-1", [("Header A-2", [])]), ("Header B-1", [])] == nodes
 
@@ -43,7 +43,7 @@ class TestHeaders:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header <em>A</em>", [])] == nodes
 
@@ -60,7 +60,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [
             ("A", Delimeter("::"), "B"),
@@ -77,7 +77,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("A", Delimeter("::"), "B")] == nodes
 
@@ -90,7 +90,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [
             ("A <i>italic</i>", Delimeter("::"), "B <strong>strong</strong>")
@@ -105,7 +105,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("A", Delimeter("?::"), 'B<br/><img src="image.png"/>')] == nodes
 
@@ -118,7 +118,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Cloze {{c1::deletion}}")] == nodes
 
@@ -131,7 +131,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [('Cloze {{c1::deletion}}<br/><img src="image.png"/>')] == nodes
 
@@ -144,7 +144,7 @@ class TestList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [('<img src="image.png"/><br/>Cloze {{c1::deletion}}')] == nodes
 
@@ -157,9 +157,10 @@ class TestImages:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, image_paths) = HtmlParser().parse(md)
 
         assert [("Question", Delimeter("?::"), 'Answer <img src="bar.png"/>')] == nodes
+        assert ["foo/bar.png"] == image_paths
 
 
 class TestNestedList:
@@ -177,7 +178,7 @@ class TestNestedList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("A", [("B", Delimeter("::"), "C")])] == nodes
 
@@ -201,7 +202,7 @@ class TestNestedList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [
             ("List 1", [("Question 1", Delimeter("?::"), "Answer 1")]),
@@ -222,7 +223,7 @@ class TestNestedList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Question", [(Delimeter("?::"), "Standalone answer")])] == nodes
 
@@ -240,7 +241,7 @@ class TestNestedList:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [
             ('<img src="bar.png"/>', [("Question", Delimeter("?::"), "Answer")])
@@ -258,7 +259,7 @@ class TestStandalone:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header", [(Delimeter("?::"), "Standalone answer")])] == nodes
 
@@ -272,7 +273,7 @@ class TestStandalone:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header", [(Delimeter("::?"), "Standalone question")])] == nodes
 
@@ -286,7 +287,7 @@ class TestStandalone:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header", [(Delimeter("::"), "Standalone two-way")])] == nodes
 
@@ -301,7 +302,7 @@ class TestMath:
         """
         )
 
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Question", Delimeter("?::"), "Answer \\(\\sin^2\\)")] == nodes
 
@@ -319,8 +320,6 @@ class TestMath:
             """
         )
 
-        print(md)
-
-        nodes = HtmlParser().parse(md)
+        (nodes, _) = HtmlParser().parse(md)
 
         assert [("Question", Delimeter("?::"), "Answer\n\\[\n\\sin^2\n\\]")] == nodes

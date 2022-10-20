@@ -1,6 +1,6 @@
 import itertools
 import re
-from typing import List
+from typing import List, Tuple
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
 
 from .types import ClozeNode, Delimeter, Node
@@ -24,20 +24,25 @@ def is_descendant(header: str, element: PageElement) -> bool:
 
 
 class HtmlParser:
-    def parse(self, text: str) -> List[Node]:
+    def parse(self, text: str) -> Tuple[List[Node], List[str]]:
         soup = BeautifulSoup(text, "html.parser")
 
-        self.strip_image_paths(soup)
+        paths = self.strip_image_paths(soup)
 
-        return self.find_nodes(soup.contents)
+        return (self.find_nodes(soup.contents), paths)
 
     # recursively traverse the tree, and modify all image srcs to be the basename only:
-    def strip_image_paths(self, elements: List[PageElement]) -> None:
+    def strip_image_paths(self, elements: List[PageElement]) -> List[str]:
+        paths = []
+
         for i, e in enumerate(elements):
             if isinstance(e, Tag):
                 if e.name == "img":
+                    paths.append(e["src"])
                     e["src"] = e["src"].split("/")[-1]
-                self.strip_image_paths(e.contents)
+                paths.extend(self.strip_image_paths(e.contents))
+
+        return paths
 
     def find_nodes(self, elements: List[PageElement]) -> List[Node]:
         nodes: List[Node] = []

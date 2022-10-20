@@ -7,8 +7,7 @@ from ankivalenz.types import BasicCard
 
 class TestLoadCards:
     def test_loads_cards(self):
-        cards = load_cards(pathlib.Path("sample/Biology"))
-        print(repr(cards))
+        (cards, _) = load_cards(pathlib.Path("sample/Biology"))
         assert sorted(
             [
                 BasicCard(

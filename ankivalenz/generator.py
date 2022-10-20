@@ -3,7 +3,7 @@ import json
 import os
 import pathlib
 import random
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from ankivalenz import HtmlParser, NodeParser
 from .anki_models import BASIC_AND_REVERSED_CARD_MODEL, BASIC_MODEL, CLOZE_MODEL
@@ -47,15 +47,17 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
     return notes
 
 
-def load_cards(path: pathlib.Path) -> List[Card]:
+def load_cards(path: pathlib.Path) -> Tuple[List[Card], List[str]]:
     cards = []
+    image_paths = []
 
     for file in path.glob("**/*.html"):
         with file.open() as f:
-            nodes = HtmlParser().parse(f.read())
+            (nodes, paths) = HtmlParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
+            image_paths.extend(paths)
 
-    return cards
+    return (cards, image_paths)
 
 
 def init(path: pathlib.Path) -> str:
@@ -79,7 +81,7 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
     with open(os.path.join(path, "ankivalenz.json")) as f:
         settings = json.load(f)
 
-    cards = load_cards(path)
+    (cards, image_paths) = load_cards(path)
 
     deck = genanki.Deck(
         settings["deck_id"],
@@ -91,7 +93,7 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
 
     package = genanki.Package(deck)
 
-    for file in path.glob("images/*"):
-        package.media_files.append(str(file))
+    for image_path in list(set(image_paths)):
+        package.media_files.append(os.path.join(path, image_path))
 
     return package
