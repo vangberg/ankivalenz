@@ -55,7 +55,9 @@ def load_cards(path: pathlib.Path) -> Tuple[List[Card], List[str]]:
         with file.open() as f:
             (nodes, paths) = HtmlParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
-            image_paths.extend(paths)
+
+            for path in paths:
+                image_paths.append(os.path.join(file.parent, path))
 
     return (cards, image_paths)
 
@@ -94,6 +96,6 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
     package = genanki.Package(deck)
 
     for image_path in list(set(image_paths)):
-        package.media_files.append(os.path.join(path, image_path))
+        package.media_files.append(image_path)
 
     return package
