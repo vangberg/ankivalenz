@@ -96,6 +96,19 @@ class TestList:
             ("A <i>italic</i>", Delimeter("::"), "B <strong>strong</strong>")
         ] == nodes
 
+    def test_list_with_image(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>A ?:: B<br><img src="image.png"></li>
+        </ul>
+        """
+        )
+
+        nodes = HtmlParser().parse(md)
+
+        assert [("A", Delimeter("?::"), 'B<br/><img src="image.png"/>')] == nodes
+
     def test_list_with_cloze(self):
         md = textwrap.dedent(
             """
@@ -108,6 +121,32 @@ class TestList:
         nodes = HtmlParser().parse(md)
 
         assert [("Cloze {{c1::deletion}}")] == nodes
+
+    def test_list_with_cloze_and_image_after_cloze(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>Cloze {{c1::deletion}}<br><img src="image.png"></li>
+        </ul>
+        """
+        )
+
+        nodes = HtmlParser().parse(md)
+
+        assert [('Cloze {{c1::deletion}}<br/><img src="image.png"/>')] == nodes
+
+    def test_list_with_cloze_and_image_before_cloze(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li><img src="image.png"><br>Cloze {{c1::deletion}}</li>
+        </ul>
+        """
+        )
+
+        nodes = HtmlParser().parse(md)
+
+        assert [('<img src="image.png"/><br/>Cloze {{c1::deletion}}')] == nodes
 
 
 class TestImages:
