@@ -1,12 +1,12 @@
 # Ankivalenz
 
-Ankivalenz is a tool for generating Anki notes from HTML files.
+Ankivalenz is a tool for generating Anki cards from HTML files.
 
 ## Tutorial
 
 In this walk-through we will write our notes as Markdown files, use
 pandoc[^pandoc] to convert them to HTML, and finally use Ankivalenz to
-generate an Anki deck with Anki notes extracted from our Markdown files.
+generate an Anki deck with Anki cards extracted from our Markdown files.
 
 ### Installation
 
@@ -62,9 +62,27 @@ $ ankivalenz run .
 This generates a file `Notes.apkg` that can be imported to Anki. Open
 Anki and go to File -> Import, and find `Notes.apkg`.
 
+### Updating Anki deck
+
+If you make changes to your notes, you can update the Anki deck by
+running `ankivalenz run` again. It is not possible to mark cards
+as deleted, so if you remove a note, the corresponding card will
+remain in the Anki deck. To work around this issue, all cards are
+tagged with a timestamp, and you can use the Anki browser to delete
+cards with an old timestamp. Running `ankivalenz run` will provide
+you with the filter needed to delete orphaned cards:
+
+```
+$ ankivalenz run .
+- Added 3 notes to deck Biology in Biology.apkg
+- Import the .apkg file into Anki (File -> Import)
+- Find and delete orphaned notes with this filter (Browse):
+    deck:Biology -tag:ankivalenz:updated:1666899823
+```
+
 ### Review
 
-The new Anki deck will have two notes:
+The new Anki deck will have two cards:
 
 | Question    | Answer                     | Path         |
 | ----------- | -------------------------- | ------------ |
@@ -93,9 +111,9 @@ You can flip the order of the question and answer by using `::?` instead:
 - Anwer ::? Question
 ```
 
-#### Two-way notes
+#### Two-way cards
 
-Two-way notes can be created with `::`:
+Two-way cards can be created with `::`:
 
 ```markdown
 - Side 1 :: Side 2
