@@ -88,18 +88,23 @@ class HtmlParser:
 
                     # if there are any elements in `tail`, it means there is a nested list.
                     if len(tail) > 0:
-                        # in the case of a nested list, the header is the content of
-                        # the first tag in `head`. If we do not find a tag in `head`,
-                        # we do not consider the nested list, and simply skip it.
-                        for e in head:
-                            if isinstance(e, Tag):
-                                if e.name == "p":
-                                    header = "".join(map(str, e.contents))
-                                else:
-                                    header = str(e)
+                        # <li>Header<ul>...</ul></li>
+                        if len(head) == 1 and isinstance(head[0], NavigableString):
+                            header = str(head[0]).strip()
+                            nodes.append((header, self.find_nodes(tail)))
+                        else:
+                            # in the case of a nested list, the header is the content of
+                            # the first tag in `head`. If we do not find a tag in `head`,
+                            # we do not consider the nested list, and simply skip it.
+                            for e in head:
+                                if isinstance(e, Tag):
+                                    if e.name == "p":
+                                        header = "".join(map(str, e.contents))
+                                    else:
+                                        header = str(e)
 
-                                nodes.append((header, self.find_nodes(tail)))
-                                break
+                                    nodes.append((header, self.find_nodes(tail)))
+                                    break
                     else:
                         nodes.extend(self.find_nodes(head))
                 else:

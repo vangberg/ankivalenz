@@ -182,6 +182,24 @@ class TestNestedList:
 
         assert [("A", [("B", Delimeter("::"), "C")])] == nodes
 
+    def test_nested_list_without_paragraph(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>
+                A
+                <ul>
+                    <li>B :: C</li>
+                </ul>
+            </li>
+        </ul>
+        """
+        )
+
+        (nodes, _) = HtmlParser().parse(md)
+
+        assert [("A", [("B", Delimeter("::"), "C")])] == nodes
+
     def test_multiple_nested_lists(self):
         md = textwrap.dedent(
             """
