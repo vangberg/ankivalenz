@@ -1,6 +1,6 @@
 # Ankivalenz
 
-Ankivalenz is a tool for generating Anki cards from HTML files.
+Ankivalenz is a tool for generating Anki cards from HTML files. Read my [blog post](https://harry.vangberg.name/posts/anki-cards-with-ankivalenz/) for more information on the "Why" of Ankivalenz.
 
 ## Tutorial
 
