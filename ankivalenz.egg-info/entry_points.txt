@@ -1,0 +1,6 @@
+[console_scripts]
+ankivalenz = ankivalenz.main:app
+
+[nbdev]
+ankivalenz = ankivalenz._modidx:d
+

@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+settings.ini
+setup.py
+ankivalenz/__init__.py
+ankivalenz/_modidx.py
+ankivalenz/ankivalenz.py
+ankivalenz/core.py
+ankivalenz.egg-info/PKG-INFO
+ankivalenz.egg-info/SOURCES.txt
+ankivalenz.egg-info/dependency_links.txt
+ankivalenz.egg-info/entry_points.txt
+ankivalenz.egg-info/not-zip-safe
+ankivalenz.egg-info/requires.txt
+ankivalenz.egg-info/top_level.txt
