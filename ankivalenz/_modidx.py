@@ -7,4 +7,8 @@ d = { 'settings': { 'branch': 'main',
                 'lib_path': 'ankivalenz'},
   'syms': { 'ankivalenz.ankivalenz': { 'ankivalenz.ankivalenz.foo': ('ankivalenz.html#foo', 'ankivalenz/ankivalenz.py'),
                                        'ankivalenz.ankivalenz.say_hi': ('ankivalenz.html#say_hi', 'ankivalenz/ankivalenz.py')},
-            'ankivalenz.core': {'ankivalenz.core.foo': ('core.html#foo', 'ankivalenz/core.py')}}}
+            'ankivalenz.core': { 'ankivalenz.core.foo': ('ankivalenz.html#foo', 'ankivalenz/core.py'),
+                                 'ankivalenz.core.say_hi': ('ankivalenz.html#say_hi', 'ankivalenz/core.py')},
+            'ankivalenz.types': { 'ankivalenz.types.BasicCard': ('types.html#basiccard', 'ankivalenz/types.py'),
+                                  'ankivalenz.types.ClozeCard': ('types.html#clozecard', 'ankivalenz/types.py'),
+                                  'ankivalenz.types.Delimeter': ('types.html#delimeter', 'ankivalenz/types.py')}}}
