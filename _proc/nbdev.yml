@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "ankivalenz"
+  site-url: "https://vangberg.github.io/ankivalenz"
+  description: "A tool for generating Anki notes from HTML files"
+  repo-branch: main
+  repo-url: "https://github.com/vangberg/ankivalenz"
