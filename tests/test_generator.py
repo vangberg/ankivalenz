@@ -105,14 +105,17 @@ class TestPackage:
         assert "Sample::Biology" == self.deck.name
 
     def test_media_files(self):
-        # sort the array to make the test deterministic
+        paths = [
+            "sample/Biology/images/flagella.png",
+            "sample/Biology/images/prokaryotic-capsule.png",
+        ]
 
-        assert sorted(
-            [
-                "sample/Biology/images/flagella.png",
-                "sample/Biology/images/prokaryotic-capsule.png",
-            ]
-        ) == sorted(self.package.media_files)
+        # convert paths in self.package.media_files to posix
+        # to make the test work on windows
+        media_files = [pathlib.Path(p).as_posix() for p in self.package.media_files]
+
+        # sort the paths to make the test deterministic
+        assert sorted(paths) == sorted(media_files)
 
     def test_tag(self):
         assert "ankivalenz:updated:12345" == self.deck.notes[0].tags[0]
