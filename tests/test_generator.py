@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import pathlib
 from ankivalenz.generator import package, load_cards
@@ -94,7 +94,7 @@ class TestLoadCards:
 
 class TestPackage:
     def setup_method(self):
-        self.time = datetime.fromtimestamp(12345)
+        self.time = datetime.fromtimestamp(12345, tz=timezone.utc)
         self.package = package(pathlib.Path("sample/Biology"), time=self.time)
         self.deck = self.package.decks[0]
 

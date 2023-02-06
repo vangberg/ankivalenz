@@ -25,7 +25,10 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
 
     notes = []
 
-    updated_tag = "ankivalenz:updated:{}".format(int(time.timestamp()))
+    ts = time.timestamp()
+    ts_int = int(ts)
+
+    updated_tag = "ankivalenz:updated:{}".format(ts_int)
 
     for card in cards:
         if isinstance(card, BasicCard):
