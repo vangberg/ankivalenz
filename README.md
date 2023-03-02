@@ -190,3 +190,13 @@ $ pandoc --mathjax Note.md > Note.html
 
 [^pandoc]: https://pandoc.org/
 [^cloze]: https://docs.ankiweb.net/editing.html#cloze-deletion
+
+## Configuration
+
+`ankivalenz.json` takes the following options:
+
+| Option       | Description                                       |
+| ------------ | ------------------------------------------------- |
+| `deck_name`  | The name of the Anki deck.                        |
+| `deck_id`    | The ID of the Anki deck.                          |
+| `input_path` | The path to the folder containing the HTML files. |

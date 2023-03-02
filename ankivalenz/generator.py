@@ -86,7 +86,9 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
     with open(os.path.join(path, "ankivalenz.json")) as f:
         settings = json.load(f)
 
-    (cards, image_paths) = load_cards(path)
+    html_path = path / settings.get("input_path", "")
+
+    (cards, image_paths) = load_cards(html_path)
 
     deck = genanki.Deck(
         settings["deck_id"],
