@@ -50,11 +50,13 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
     return notes
 
 
-def load_cards(path: pathlib.Path) -> Tuple[List[Card], List[str]]:
+def load_cards(
+    path: pathlib.Path, extension: str = "html"
+) -> Tuple[List[Card], List[str]]:
     cards = []
     image_paths = []
 
-    for file in path.glob("**/*.html"):
+    for file in path.glob("**/*.{}".format(extension)):
         with file.open() as f:
             (nodes, paths) = HtmlParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
@@ -86,9 +88,10 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
     with open(os.path.join(path, "ankivalenz.json")) as f:
         settings = json.load(f)
 
-    html_path = path / settings.get("input_path", "")
+    input_path = path / settings.get("input_path", "")
+    input_ext = settings.get("input_ext", "html")
 
-    (cards, image_paths) = load_cards(html_path)
+    (cards, image_paths) = load_cards(input_path, extension=input_ext)
 
     deck = genanki.Deck(
         settings["deck_id"],
