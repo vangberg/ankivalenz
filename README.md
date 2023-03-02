@@ -2,6 +2,12 @@
 
 Ankivalenz is a tool for generating Anki cards from HTML files. Read my [blog post](https://harry.vangberg.name/posts/anki-cards-with-ankivalenz/) for more information on the "Why" of Ankivalenz.
 
+## Use with Quarto
+
+Ankivalenz can be used with [Quarto](https://quarto.org). Take a look at
+the repo for the [quarto-ankivalenz](https://github.com/vangberg/quarto-ankivalenz)
+extension for more information.
+
 ## Tutorial
 
 In this walk-through we will write our notes as Markdown files, use
