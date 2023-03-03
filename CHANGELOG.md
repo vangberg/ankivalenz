@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Quote deck name in command line output (https://github.com/vangberg/ankivalenz/issues/13)
+
 ## 0.5 (2023-03-02)
 
 - Added the configuration option `input_ext`, which specifies the file
