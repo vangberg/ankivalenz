@@ -7,7 +7,7 @@ from .types import ClozeNode, Delimeter, Node
 
 BASIC_REGEXP = r"(.*?)\s*(::\?|\?::|::)\s*(.*)"
 STANDALONE_REGEXP = r"^(::\?|\?::|::)\s*(.*)"
-CLOZE_REGEXP = r".*{{c\d+::.*?}}.*"
+CLOZE_REGEXP = r".*{{c\d+::.*"
 HEADER_TAGS = ["h1", "h2", "h3", "h4", "h5", "h6"]
 
 # Returns `True` if `element` is a non-header or a header with

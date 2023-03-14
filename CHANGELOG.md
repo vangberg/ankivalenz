@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Detect Cloze deletions with HTML inside, e.g.: {{c1::<sup>14</sup>C}}
+
 ## 0.6 (2023-03-03)
 
 - Quote deck name in command line output (https://github.com/vangberg/ankivalenz/issues/13)

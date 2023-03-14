@@ -122,6 +122,19 @@ class TestList:
 
         assert [("Cloze {{c1::deletion}}")] == nodes
 
+    def test_list_with_cloze_with_html(self):
+        md = textwrap.dedent(
+            """
+        <ul>
+            <li>Cloze {{c1::<sup>deletion</sup>}}</li>
+        </ul>
+        """
+        )
+
+        (nodes, _) = HtmlParser().parse(md)
+
+        assert [("Cloze {{c1::<sup>deletion</sup>}}")] == nodes
+
     def test_list_with_cloze_and_image_after_cloze(self):
         md = textwrap.dedent(
             """
