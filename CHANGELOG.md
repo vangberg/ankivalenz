@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7 (2023-03-14)
 
 - Detect Cloze deletions with HTML inside, e.g.: {{c1::<sup>14</sup>C}}
 
