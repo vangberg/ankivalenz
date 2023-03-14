@@ -17,3 +17,9 @@ poetry run pytest
 1. Update `CHANGELOG.md`
 2. Update version in `pyproject.toml`
 3. Run `poetry build && poetry publish`
+
+## PyPI authentication
+
+```
+poetry config pypi-token.pypi your-api-token
+```
