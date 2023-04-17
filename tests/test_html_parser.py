@@ -240,7 +240,25 @@ class TestNestedList:
             ("List 2", [("Question 2", Delimeter("?::"), "Answer 2")]),
         ] == nodes
 
-    def test_nested_list_and_standalone_answer(self):
+    def test_nested_list_and_standalone_answer_with_delimeter_in_parent_item(self):
+        md = textwrap.dedent(
+            """
+            <ul>
+                <li>
+                    <p>Question ?::</p>
+                    <ul>
+                        <li> Standalone answer</li>
+                    </ul>
+                </li>
+            </ul>
+            """
+        )
+
+        (nodes, _) = HtmlParser().parse(md)
+
+        assert [("Question", [(Delimeter("?::"), "Standalone answer")])] == nodes
+
+    def test_nested_list_and_standalone_answer_with_delimeter_in_child_item(self):
         md = textwrap.dedent(
             """
         <ul>
@@ -257,6 +275,7 @@ class TestNestedList:
         (nodes, _) = HtmlParser().parse(md)
 
         assert [("Question", [(Delimeter("?::"), "Standalone answer")])] == nodes
+    
 
     def test_nested_list_and_image(self):
         md = textwrap.dedent(
@@ -321,7 +340,7 @@ class TestStandalone:
         (nodes, _) = HtmlParser().parse(md)
 
         assert [("Header", [(Delimeter("::"), "Standalone two-way")])] == nodes
-
+    
 
 class TestMath:
     def test_inline_math(self):
