@@ -162,13 +162,13 @@ files = [
 
 [[package]]
 name = "genanki"
-version = "0.13.0"
+version = "0.13.1"
 description = "Generate Anki decks programmatically"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "genanki-0.13.0-py3-none-any.whl", hash = "sha256:6e4060ec3722355aa306de9475bfc6649afeb86d565249d4a2d8804a0ed9a0d1"},
-    {file = "genanki-0.13.0.tar.gz", hash = "sha256:bfacdcadd7903ed6afce6168e1977e473b431677b358f8fd42e80b48cedd19ab"},
+    {file = "genanki-0.13.1-py3-none-any.whl", hash = "sha256:65b59434008588a1213b940474d1aca8cca83243af6fc0e26200b560efe4d9e3"},
+    {file = "genanki-0.13.1.tar.gz", hash = "sha256:84d090423a8879520465bfe9784083edacb8d35e2ba511fa5a1bdef01d8f71ed"},
 ]
 
 [package.dependencies]
