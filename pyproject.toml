@@ -12,7 +12,7 @@ ankivalenz = "ankivalenz.main:app"
 python = "^3.10"
 bs4 = ">=0.0.1,<0.0.3"
 genanki = "^0.13.0"
-typer = ">=0.6.1,<0.10.0"
+typer = ">=0.6.1,<0.13.0"
 
 
 [tool.poetry.group.test.dependencies]
