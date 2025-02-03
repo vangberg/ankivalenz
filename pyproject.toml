@@ -15,6 +15,9 @@ genanki = "^0.13.0"
 typer = ">=0.6.1,<0.16.0"
 mistune = "^3.0.2"
 pyyaml = ">=6.0.1"
+markdown = "^3.5.2"
+commonmark = "^0.9.1"
+mistletoe = "^1.4.0"
 
 
 [tool.poetry.group.test.dependencies]

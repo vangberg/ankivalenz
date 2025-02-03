@@ -1,3 +1,7 @@
+# This test file is disabled as we've migrated from HTML to Markdown parsing.
+# The tests are kept for reference but have been replaced by test_markdown_parser.py
+# See RFC-001 for details.
+
 import textwrap
 
 from bs4 import BeautifulSoup
