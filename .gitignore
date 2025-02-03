@@ -3,3 +3,4 @@
 __pycache__
 *.apkg
 dist
+.DS_Store
