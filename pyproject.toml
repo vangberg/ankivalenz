@@ -19,6 +19,7 @@ markdown = "^3.5.2"
 commonmark = "^0.9.1"
 mistletoe = "^1.4.0"
 python-markdown-math = "^0.8"
+mdit-py-plugins = "^0.4.2"
 
 
 [tool.poetry.group.test.dependencies]

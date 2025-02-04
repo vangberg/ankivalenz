@@ -50,11 +50,13 @@ class MarkdownParser:
             return f"**{self._get_node_content(node.children[0])}**"
         if isinstance(node, Image):
             # Handle image paths - strip them but remember the original
+            # Get alt text from the first child node if it exists
+            alt_text = self._get_node_content(node.children[0]) if node.children else ""
             if "/" in node.src:
                 self.image_paths.append(node.src)
                 filename = node.src.split("/")[-1]
-                return f"![{node.title or ''}]({filename})"
-            return f"![{node.title or ''}]({node.src})"
+                return f"![{alt_text}]({filename})"
+            return f"![{alt_text}]({node.src})"
         if isinstance(node, LineBreak):
             return "\n"
         if hasattr(node, "children"):
@@ -99,6 +101,7 @@ class MarkdownParser:
         Parse the content of a list item, handling:
         - Cloze deletions (e.g., {{c1::text}})
         - Delimiters (::, ?::, ::?) for question/answer pairs
+        - Standalone answers/questions (starting with a delimiter)
 
         Returns the appropriate node structure based on the content type.
         """
@@ -111,7 +114,11 @@ class MarkdownParser:
         pattern = r"(.*?)\s*(::\?|\?::|::)\s*(.*)"
         if match := re.match(pattern, content, re.DOTALL):
             before, delimiter_type, after = match.groups()
+            # If content starts with a delimiter (i.e., before is empty), return just the delimiter and after
+            if not before.strip():
+                return (Delimeter(delimiter_type), after.strip())
             return (before.strip(), Delimeter(delimiter_type), after.strip())
+
         return content
 
     def _parse_nodes(self, tokens: List) -> List[Node]:
@@ -137,20 +144,43 @@ class MarkdownParser:
                         nodes.append(current_node)
                     current_node = (content, [])
                     current_level = token.level
-                elif current_node and token.level > current_level:
-                    # Subheading - add to current section
-                    current_node[1].append((content, []))
+                elif current_node:
+                    if token.level > current_level:
+                        # Subheading - add to current header's children
+                        current_node[1].append((content, []))
+                    elif token.level == current_level:
+                        # Same level header - add as sibling under parent
+                        current_node[1].append((content, []))
+                    else:
+                        # New section at higher level
+                        if current_node:
+                            nodes.append(current_node)
+                        current_node = (content, [])
+                        current_level = token.level
                 else:
-                    # New section at same or higher level
-                    if current_node:
-                        nodes.append(current_node)
+                    # No current header, start a new section
                     current_node = (content, [])
                     current_level = token.level
             elif isinstance(token, MistletoeList):
                 # Process each list item
                 for item in token.children:
                     if isinstance(item, ListItem):
-                        nodes.append(self._parse_list_item(item))
+                        parsed_item = self._parse_list_item(item)
+                        if current_node:
+                            # Add the list item to the current header's children
+                            # Find the most recently added header at the current level
+                            target = current_node[1]
+                            if (
+                                target
+                                and isinstance(target[-1], tuple)
+                                and len(target[-1]) == 2
+                            ):
+                                target[-1][1].append(parsed_item)
+                            else:
+                                target.append(parsed_item)
+                        else:
+                            # No current header, add to top level
+                            nodes.append(parsed_item)
 
         # Don't forget the last node
         if current_node:

@@ -75,8 +75,8 @@ class TestCreateBasicNote:
         note = create_basic_note(card, "test_tag")
 
         assert note.fields == [
-            '<p>Image with attributes: <img alt="Flagella" src="flagella.png" width="150" /></p>',
-            '<p>Plain image: <img alt="Flagella" src="flagella.png" /></p>',
+            '<p>Image with attributes: <img src="flagella.png" alt="Flagella" width="150" /></p>',
+            '<p>Plain image: <img src="flagella.png" alt="Flagella" /></p>',
             "Biology > Chapter 1",
         ]
 
@@ -97,8 +97,8 @@ class TestCreateBasicNote:
 
     def test_renders_block_math(self):
         card = BasicCard(
-            question="What is:\n$$\nx + y = z\n$$",
-            answer="The equation $$a + b = c$$ shows the sum",
+            question="What is:\n\n$$\nx + y = z\n$$",
+            answer="The equation\n\n$$a + b = c$$\n\nshows the sum",
             path=["Biology", "Chapter 1"],
             reverse=False,
         )
@@ -106,7 +106,7 @@ class TestCreateBasicNote:
 
         assert note.fields == [
             "<p>What is:</p>\n\\[\nx + y = z\n\\]",
-            "<p>The equation \\[a + b = c\\] shows the sum</p>",
+            "<p>The equation</p>\n\\[\na + b = c\n\\]\n<p>shows the sum</p>",
             "Biology > Chapter 1",
         ]
 
@@ -145,7 +145,7 @@ class TestCreateClozeNote:
         note = create_cloze_note(card, "test_tag")
 
         assert note.fields == [
-            '<p>The {{c1::image}} shows: <img alt="Flagella" src="flagella.png" width="150" /> and <img alt="Flagella" src="flagella.png" /></p>',
+            '<p>The {{c1::image}} shows: <img src="flagella.png" alt="Flagella" width="150" /> and <img src="flagella.png" alt="Flagella" /></p>',
             "",
             "Biology > Chapter 1",
         ]
@@ -165,7 +165,7 @@ class TestCreateClozeNote:
 
     def test_renders_block_math(self):
         card = ClozeCard(
-            question="The {{c1::equation}} is:\n$$\nx + y = z\n$$",
+            question="The {{c1::equation}} is:\n\n$$\nx + y = z\n$$",
             path=["Biology", "Chapter 1"],
         )
         note = create_cloze_note(card, "test_tag")
@@ -185,30 +185,30 @@ class TestLoadCards:
                 BasicCard(
                     question="Covalent bond",
                     answer="electrons are shared",
-                    path=["Chemistrys", "Bonds"],
+                    path=["Chemistry", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
                     question="Ionic bond",
                     answer="electrons are transferred",
-                    path=["Chemistrys", "Bonds"],
+                    path=["Chemistry", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
-                    question='<span class="math inline">\\(A + B\\)</span>',
-                    answer='<span class="math inline">\\(\\dfrac{C}{D}\\)</span>',
-                    path=["Chemistrys", "Reaction"],
+                    question="$A + B$",
+                    answer="$\\dfrac{C}{D}$",
+                    path=["Chemistry", "Reaction"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="Math",
-                    answer='<br/>\n<img src="flagella.png" width="150"/><br/>\n<span class="math display">\\[\n1 + 2 = \\dfrac{3}{4}\n\\]</span>',
-                    path=["Chemistrys", "Reaction"],
+                    answer='![Flagella](flagella.png){width="150"}\n$$\n1 + 2 = \\dfrac{3}{4}\n$$',
+                    path=["Chemistry", "Reaction"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="Prokaryotic",
-                    answer="does <strong>not</strong> contain a nucleus",
+                    answer="does **not** contain a nucleus",
                     path=["Cell", "Types"],
                     reverse=True,
                 ),
@@ -231,7 +231,7 @@ class TestLoadCards:
                     reverse=False,
                 ),
                 BasicCard(
-                    question='<br/>\n<img src="prokaryotic-capsule.png" width="150"/>',
+                    question='![Prokaryotic Capsule](prokaryotic-capsule.png){width="150"}',
                     answer="Capsule",
                     path=["Cell", "Prokaryotic"],
                     reverse=False,
@@ -239,25 +239,25 @@ class TestLoadCards:
                 BasicCard(
                     question="a",
                     answer="Monotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
+                    path=["Cell", "Flagella", "![Flagella](flagella.png)"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="b",
                     answer="Lophotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
+                    path=["Cell", "Flagella", "![Flagella](flagella.png)"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="c",
                     answer="Amphitrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
+                    path=["Cell", "Flagella", "![Flagella](flagella.png)"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="d",
                     answer="Peritrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
+                    path=["Cell", "Flagella", "![Flagella](flagella.png)"],
                     reverse=False,
                 ),
             ]

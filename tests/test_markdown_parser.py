@@ -102,7 +102,89 @@ class TestList:
         assert [("![](image.png)\nCloze {{c1::deletion}}")] == nodes
 
 
+class TestHeadersAndList:
+    def test_header_and_list(self):
+        md = textwrap.dedent("""
+            # Header 1
+
+            ## Header 2
+
+            - Question ?:: Answer
+            """)
+
+        (nodes, _) = MarkdownParser().parse(md)
+
+        assert [
+            ("Header 1", [("Header 2", [("Question", Delimeter("?::"), "Answer")])])
+        ] == nodes
+
+    def test_header_and_list_with_multiple_items(self):
+        md = textwrap.dedent("""
+            # Header 1
+
+            ## Header 2
+                             
+            - List 1
+              - Question 1 ?:: Answer 1
+
+            - List 2
+              - Question 2 ?:: Answer 2
+            """)
+
+        (nodes, _) = MarkdownParser().parse(md)
+
+        assert [
+            (
+                "Header 1",
+                [
+                    (
+                        "Header 2",
+                        [
+                            ("List 1", [("Question 1", Delimeter("?::"), "Answer 1")]),
+                            ("List 2", [("Question 2", Delimeter("?::"), "Answer 2")]),
+                        ],
+                    )
+                ],
+            )
+        ] == nodes
+
+    def test_headers_and_lists(self):
+        md = textwrap.dedent("""
+            # Header 1
+
+            ## Header A
+
+            - Question A ?:: Answer A
+
+            ## Header B
+
+            - Question B ?:: Answer B
+
+            """)
+
+        (nodes, _) = MarkdownParser().parse(md)
+
+        assert [
+            (
+                "Header 1",
+                [
+                    ("Header A", [("Question A", Delimeter("?::"), "Answer A")]),
+                    ("Header B", [("Question B", Delimeter("?::"), "Answer B")]),
+                ],
+            ),
+        ] == nodes
+
+
 class TestImages:
+    def test_parses_alt_text(self):
+        md = textwrap.dedent("""
+            - Question ?:: Answer ![Alt text](foo/bar.png)
+            """)
+
+        (nodes, _) = MarkdownParser().parse(md)
+
+        assert [("Question", Delimeter("?::"), "Answer ![Alt text](bar.png)")] == nodes
+
     def test_strips_path_from_image(self):
         md = textwrap.dedent("""
             - Question ?:: Answer ![](foo/bar.png)
@@ -148,9 +230,9 @@ class TestNestedList:
 
         (nodes, _) = MarkdownParser().parse(md)
 
-        assert [("Question", [("", Delimeter("?::"), "Standalone answer")])] == nodes
+        assert [("Question", [(Delimeter("?::"), "Standalone answer")])] == nodes
 
-    def test_nested_list_and_image(self):
+    def test_nested_list_and_standalone_answer_with_image(self):
         md = textwrap.dedent("""
             - Question
               - ?:: Answer  
@@ -159,9 +241,7 @@ class TestNestedList:
 
         (nodes, _) = MarkdownParser().parse(md)
 
-        assert [
-            ("Question", [("", Delimeter("?::"), "Answer\n![](image.png)")])
-        ] == nodes
+        assert [("Question", [(Delimeter("?::"), "Answer\n![](image.png)")])] == nodes
 
 
 class TestMath:
