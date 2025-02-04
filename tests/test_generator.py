@@ -1,8 +1,180 @@
 from datetime import datetime, timezone
 import json
 import pathlib
-from ankivalenz.generator import package, load_cards
-from ankivalenz.types import BasicCard
+from ankivalenz.generator import (
+    package,
+    load_cards,
+    create_basic_note,
+    create_cloze_note,
+)
+from ankivalenz.anki_models import (
+    BASIC_MODEL,
+    BASIC_AND_REVERSED_CARD_MODEL,
+    CLOZE_MODEL,
+)
+from ankivalenz.types import BasicCard, ClozeCard
+
+
+class TestCreateBasicNote:
+    def test_creates_basic_note(self):
+        card = BasicCard(
+            question="What is X?",
+            answer="X is Y",
+            path=["Biology", "Chapter 1"],
+            reverse=False,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.model == BASIC_MODEL
+        assert note.fields == [
+            "<p>What is X?</p>",
+            "<p>X is Y</p>",
+            "Biology > Chapter 1",
+        ]
+        assert note.tags == ["test_tag"]
+
+    def test_creates_reversed_note(self):
+        card = BasicCard(
+            question="What is X?",
+            answer="X is Y",
+            path=["Biology", "Chapter 1"],
+            reverse=True,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.model == BASIC_AND_REVERSED_CARD_MODEL
+        assert note.fields == [
+            "<p>What is X?</p>",
+            "<p>X is Y</p>",
+            "Biology > Chapter 1",
+        ]
+        assert note.tags == ["test_tag"]
+
+    def test_renders_markdown_emphasis(self):
+        card = BasicCard(
+            question="What is **bold** and *italic*?",
+            answer="This is __bold__ and _italic_",
+            path=["Biology", "Chapter 1"],
+            reverse=False,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>What is <strong>bold</strong> and <em>italic</em>?</p>",
+            "<p>This is <strong>bold</strong> and <em>italic</em></p>",
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_images(self):
+        card = BasicCard(
+            question='Image with attributes: ![Flagella](flagella.png){width="150"}',
+            answer="Plain image: ![Flagella](flagella.png)",
+            path=["Biology", "Chapter 1"],
+            reverse=False,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.fields == [
+            '<p>Image with attributes: <img alt="Flagella" src="flagella.png" width="150" /></p>',
+            '<p>Plain image: <img alt="Flagella" src="flagella.png" /></p>',
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_inline_math(self):
+        card = BasicCard(
+            question="What is $x + y$?",
+            answer="The sum is $z$",
+            path=["Biology", "Chapter 1"],
+            reverse=False,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>What is \\(x + y\\)?</p>",
+            "<p>The sum is \\(z\\)</p>",
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_block_math(self):
+        card = BasicCard(
+            question="What is:\n$$\nx + y = z\n$$",
+            answer="The equation $$a + b = c$$ shows the sum",
+            path=["Biology", "Chapter 1"],
+            reverse=False,
+        )
+        note = create_basic_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>What is:</p>\n\\[\nx + y = z\n\\]",
+            "<p>The equation \\[a + b = c\\] shows the sum</p>",
+            "Biology > Chapter 1",
+        ]
+
+
+class TestCreateClozeNote:
+    def test_creates_cloze_note(self):
+        card = ClozeCard(question="{{c1::X}} is Y", path=["Biology", "Chapter 1"])
+        note = create_cloze_note(card, "test_tag")
+
+        assert note.model == CLOZE_MODEL
+        assert note.fields == [
+            "<p>{{c1::X}} is Y</p>",
+            "",
+            "Biology > Chapter 1",
+        ]
+        assert note.tags == ["test_tag"]
+
+    def test_renders_markdown_emphasis(self):
+        card = ClozeCard(
+            question="The {{c1::*important*}} part is **bold**",
+            path=["Biology", "Chapter 1"],
+        )
+        note = create_cloze_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>The {{c1::<em>important</em>}} part is <strong>bold</strong></p>",
+            "",
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_images(self):
+        card = ClozeCard(
+            question='The {{c1::image}} shows: ![Flagella](flagella.png){width="150"} and ![Flagella](flagella.png)',
+            path=["Biology", "Chapter 1"],
+        )
+        note = create_cloze_note(card, "test_tag")
+
+        assert note.fields == [
+            '<p>The {{c1::image}} shows: <img alt="Flagella" src="flagella.png" width="150" /> and <img alt="Flagella" src="flagella.png" /></p>',
+            "",
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_inline_math(self):
+        card = ClozeCard(
+            question="The {{c1::sum}} of $x + y$ is $z$",
+            path=["Biology", "Chapter 1"],
+        )
+        note = create_cloze_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>The {{c1::sum}} of \\(x + y\\) is \\(z\\)</p>",
+            "",
+            "Biology > Chapter 1",
+        ]
+
+    def test_renders_block_math(self):
+        card = ClozeCard(
+            question="The {{c1::equation}} is:\n$$\nx + y = z\n$$",
+            path=["Biology", "Chapter 1"],
+        )
+        note = create_cloze_note(card, "test_tag")
+
+        assert note.fields == [
+            "<p>The {{c1::equation}} is:</p>\n\\[\nx + y = z\n\\]",
+            "",
+            "Biology > Chapter 1",
+        ]
 
 
 class TestLoadCards:
@@ -67,25 +239,25 @@ class TestLoadCards:
                 BasicCard(
                     question="a",
                     answer="Monotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
                     reverse=False,
                 ),
                 BasicCard(
                     question="b",
                     answer="Lophotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
                     reverse=False,
                 ),
                 BasicCard(
                     question="c",
                     answer="Amphitrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
                     reverse=False,
                 ),
                 BasicCard(
                     question="d",
                     answer="Peritrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=["Cell", "Flagella", '<img src="flagella.png"/>'],
                     reverse=False,
                 ),
             ]

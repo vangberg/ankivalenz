@@ -468,6 +468,20 @@ tomli = {version = ">=1", markers = "python_version < \"3.11\""}
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
+name = "python-markdown-math"
+version = "0.8"
+description = "Math extension for Python-Markdown"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "python-markdown-math-0.8.tar.gz", hash = "sha256:8564212af679fc18d53f38681f16080fcd3d186073f23825c7ce86fadd3e3635"},
+    {file = "python_markdown_math-0.8-py3-none-any.whl", hash = "sha256:c685249d84b5b697e9114d7beb352bd8ca2e07fd268fd4057ffca888c14641e5"},
+]
+
+[package.dependencies]
+Markdown = ">=3.0"
+
+[[package]]
 name = "pyyaml"
 version = "6.0.2"
 description = "YAML parser and emitter for Python"
@@ -642,4 +656,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "84d5c0de9320f5315b9f252d4d0da7cae4b5539f4d10656a7ea0ec688c165689"
+content-hash = "b43b5727798550546d30d46c330f00087f6b9c06306a993b925490e47b4f3ca8"

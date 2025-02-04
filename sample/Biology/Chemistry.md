@@ -10,7 +10,7 @@
 
 -   $A + B$ ?:: $\dfrac{C}{D}$
 -   Math ?::  
-    <img src="images/flagella.png" width="150" />  
+    ![Flagella](images/flagella.png){width="150"}  
     $$
     1 + 2 = \dfrac{3}{4}
     $$
