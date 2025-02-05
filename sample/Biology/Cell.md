@@ -16,12 +16,12 @@
 
 -   Capsule
 
-    -   ::?  
-        <img src="images/prokaryotic-capsule.png" width="150" />
+    -   ::?
+        ![Prokaryotic Capsule](images/prokaryotic-capsule.png){width="150"}
 
 ## Flagella
 
--   <img src="images/flagella.png" width="150" />
+-   ![Flagella](images/flagella.png)
 
     -   a ?:: Monotrichous
 

@@ -1,8 +1,16 @@
 from datetime import datetime, timezone
 import json
 import pathlib
-from ankivalenz.generator import package, load_cards
-from ankivalenz.types import BasicCard
+from ankivalenz.generator import (
+    package,
+    load_cards,
+)
+from ankivalenz.anki_models import (
+    BASIC_MODEL,
+    BASIC_AND_REVERSED_CARD_MODEL,
+    CLOZE_MODEL,
+)
+from ankivalenz.types import BasicCard, ClozeCard
 
 
 class TestLoadCards:
@@ -13,25 +21,25 @@ class TestLoadCards:
                 BasicCard(
                     question="Covalent bond",
                     answer="electrons are shared",
-                    path=["Chemistrys", "Bonds"],
+                    path=["Chemistry", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
                     question="Ionic bond",
                     answer="electrons are transferred",
-                    path=["Chemistrys", "Bonds"],
+                    path=["Chemistry", "Bonds"],
                     reverse=True,
                 ),
                 BasicCard(
-                    question='<span class="math inline">\\(A + B\\)</span>',
-                    answer='<span class="math inline">\\(\\dfrac{C}{D}\\)</span>',
-                    path=["Chemistrys", "Reaction"],
+                    question="\\(A + B\\)",
+                    answer="\\(\\dfrac{C}{D}\\)",
+                    path=["Chemistry", "Reaction"],
                     reverse=False,
                 ),
                 BasicCard(
                     question="Math",
-                    answer='<br/>\n<img src="flagella.png" width="150"/><br/>\n<span class="math display">\\[\n1 + 2 = \\dfrac{3}{4}\n\\]</span>',
-                    path=["Chemistrys", "Reaction"],
+                    answer='<img alt="Flagella" src="flagella.png" width="150"/><br/>\n\\(1 + 2 = \\dfrac{3}{4}\\)',
+                    path=["Chemistry", "Reaction"],
                     reverse=False,
                 ),
                 BasicCard(
@@ -59,7 +67,7 @@ class TestLoadCards:
                     reverse=False,
                 ),
                 BasicCard(
-                    question='<br/>\n<img src="prokaryotic-capsule.png" width="150"/>',
+                    question='<img alt="Prokaryotic Capsule" src="prokaryotic-capsule.png" width="150"/>',
                     answer="Capsule",
                     path=["Cell", "Prokaryotic"],
                     reverse=False,
@@ -67,25 +75,41 @@ class TestLoadCards:
                 BasicCard(
                     question="a",
                     answer="Monotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=[
+                        "Cell",
+                        "Flagella",
+                        '<img alt="Flagella" src="flagella.png"/>',
+                    ],
                     reverse=False,
                 ),
                 BasicCard(
                     question="b",
                     answer="Lophotrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=[
+                        "Cell",
+                        "Flagella",
+                        '<img alt="Flagella" src="flagella.png"/>',
+                    ],
                     reverse=False,
                 ),
                 BasicCard(
                     question="c",
                     answer="Amphitrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=[
+                        "Cell",
+                        "Flagella",
+                        '<img alt="Flagella" src="flagella.png"/>',
+                    ],
                     reverse=False,
                 ),
                 BasicCard(
                     question="d",
                     answer="Peritrichous",
-                    path=["Cell", "Flagella", '<img src="flagella.png" width="150"/>'],
+                    path=[
+                        "Cell",
+                        "Flagella",
+                        '<img alt="Flagella" src="flagella.png"/>',
+                    ],
                     reverse=False,
                 ),
             ]
