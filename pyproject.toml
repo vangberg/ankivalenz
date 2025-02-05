@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ankivalenz"
-version = "0.7.0"
+version = "1.0.0a1"
 description = ""
 authors = ["Harry Vangberg <harry@vangberg.name>"]
 readme = "README.md"
