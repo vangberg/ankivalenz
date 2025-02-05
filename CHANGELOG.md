@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0a1 (2025-02-05)
+## 1.0.0 (2025-02-05)
 
 - Parse Markdown files instead of HTML files.
 
