@@ -1,9 +1,26 @@
 from datetime import datetime
 import pathlib
 import typer
+from importlib import metadata
 from . import generator
 
 app = typer.Typer()
+
+
+@app.command()
+def help():
+    typer.echo("Ankivalenz is a tool for converting Markdown files to Anki decks.")
+    typer.echo("Usage: ankivalenz [OPTIONS] COMMAND [ARGS]...")
+    typer.echo("Commands:")
+    typer.echo("  init    Initialize an ankivalenz.json file")
+    typer.echo("  run    Run Ankivalenz")
+    typer.echo("  version    Show the version of Ankivalenz")
+    typer.echo("  help    Show this message and exit.")
+
+
+@app.command()
+def version():
+    typer.echo(f"Ankivalenz version {metadata.version('ankivalenz')}")
 
 
 @app.command()
