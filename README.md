@@ -4,6 +4,12 @@ Ankivalenz is a tool for generating Anki cards from Markdown files. Read my
 [blog post](https://harry.vangberg.name/posts/anki-cards-with-ankivalenz/) for more
 information on the "Why" of Ankivalenz.
 
+## Table of Contents
+
+- [Tutorial](#tutorial)
+- [Syntax](#syntax)
+- [Configuration](#configuration)
+
 ## Tutorial
 
 In this walk-through we will write our notes as Markdown files, and use Ankivalenz to
