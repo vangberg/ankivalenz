@@ -1,0 +1,5 @@
+---
+description: Running tests
+globs: 
+---
+Use `poetry` to run tests.
