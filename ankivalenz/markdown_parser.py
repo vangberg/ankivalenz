@@ -39,6 +39,4 @@ class MarkdownParser:
         # Parse and render the markdown
         html = md.render(text).strip()
 
-        print(html)
-
         return HtmlParser().parse(html)
