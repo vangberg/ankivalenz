@@ -5,7 +5,8 @@ import pathlib
 import random
 from typing import List, Optional, Tuple
 
-from ankivalenz import HtmlParser, NodeParser
+from ankivalenz.markdown_parser import MarkdownParser
+from ankivalenz.node_parser import NodeParser
 from .anki_models import BASIC_AND_REVERSED_CARD_MODEL, BASIC_MODEL, CLOZE_MODEL
 from .types import BasicCard, Card, ClozeCard, Path
 import genanki
@@ -51,14 +52,14 @@ def cards_to_notes(cards: List[Card], time: Optional[datetime]) -> List[Note]:
 
 
 def load_cards(
-    path: pathlib.Path, extension: str = "html"
+    path: pathlib.Path, extension: str = "md"
 ) -> Tuple[List[Card], List[str]]:
     cards = []
     image_paths = []
 
     for file in path.glob("**/*.{}".format(extension)):
         with file.open() as f:
-            (nodes, paths) = HtmlParser().parse(f.read())
+            (nodes, paths) = MarkdownParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
 
             for path in paths:
@@ -89,7 +90,7 @@ def package(path: pathlib.Path, time: Optional[datetime] = None) -> genanki.Pack
         settings = json.load(f)
 
     input_path = path / settings.get("input_path", "")
-    input_ext = settings.get("input_ext", "html")
+    input_ext = settings.get("input_ext", "md")
 
     (cards, image_paths) = load_cards(input_path, extension=input_ext)
 

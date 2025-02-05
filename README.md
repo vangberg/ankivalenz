@@ -1,17 +1,12 @@
 # Ankivalenz
 
-Ankivalenz is a tool for generating Anki cards from HTML files. Read my [blog post](https://harry.vangberg.name/posts/anki-cards-with-ankivalenz/) for more information on the "Why" of Ankivalenz.
-
-## Use with Quarto
-
-Ankivalenz can be used with [Quarto](https://quarto.org). Take a look at
-the repo for the [quarto-ankivalenz](https://github.com/vangberg/quarto-ankivalenz)
-extension for more information.
+Ankivalenz is a tool for generating Anki cards from Markdown files. Read my 
+[blog post](https://harry.vangberg.name/posts/anki-cards-with-ankivalenz/) for more
+information on the "Why" of Ankivalenz.
 
 ## Tutorial
 
-In this walk-through we will write our notes as Markdown files, use
-pandoc[^pandoc] to convert them to HTML, and finally use Ankivalenz to
+In this walk-through we will write our notes as Markdown files, and use Ankivalenz to
 generate an Anki deck with Anki cards extracted from our Markdown files.
 
 ### Installation
@@ -53,13 +48,7 @@ Add the following to a file named `Cell.md`:
 
 ### Generate Anki deck
 
-Convert it to HTML:
-
-```
-$ pandoc Cell.md > Cell.html
-```
-
-And run Ankivalenz:
+Run Ankivalenz:
 
 ```
 $ ankivalenz run .
@@ -178,31 +167,20 @@ The headings for the nested lists become a part of the notes' paths:
 
 ### Math
 
-If you are writing Markdown files, and use pandoc to convert them,
-the following syntax for math is supported:
+Ankivalenz supports inline math:
 
 ```markdown
 - Inline math: $1 + 2$
-- Display math: $$1 + 2$$
 ```
 
-With the `--mathjax` flag, pandoc will generate the correct markup,
-using `\( ... \)` as delimeters for inline math, and `\[ ... \]` as
-delimeters for display math:
-
-```
-$ pandoc --mathjax Note.md > Note.html
-```
-
-[^pandoc]: https://pandoc.org/
 [^cloze]: https://docs.ankiweb.net/editing.html#cloze-deletion
 
 ## Configuration
 
 `ankivalenz.json` takes the following options:
 
-| Option       | Description                                       |
-| ------------ | ------------------------------------------------- |
-| `deck_name`  | The name of the Anki deck.                        |
-| `deck_id`    | The ID of the Anki deck.                          |
-| `input_path` | The path to the folder containing the HTML files. |
+| Option       | Description                                           |
+| ------------ | ------------------------------------------------------|
+| `deck_name`  | The name of the Anki deck.                            |
+| `deck_id`    | The ID of the Anki deck.                              |
+| `input_path` | The path to the folder containing the Markdown files. |
