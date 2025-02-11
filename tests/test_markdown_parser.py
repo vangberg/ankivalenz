@@ -207,6 +207,18 @@ class TestImages:
         ] == nodes
         assert ["foo/bar.png"] == image_paths
 
+    def test_path_with_spaces(self):
+        md = textwrap.dedent("""
+            - Question ?:: ![](foo%20bar.png)
+            """)
+
+        (nodes, image_paths) = MarkdownParser().parse(md)
+
+        assert [
+            ("Question", Delimeter("?::"), '<img alt="" src="foo%20bar.png"/>')
+        ] == nodes
+        assert ["foo bar.png"] == image_paths
+
 
 class TestNestedList:
     def test_nested_list(self):

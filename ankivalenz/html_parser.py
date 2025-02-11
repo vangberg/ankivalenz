@@ -2,6 +2,7 @@ import itertools
 import re
 from typing import List, Tuple
 from bs4 import BeautifulSoup, NavigableString, PageElement, Tag
+from urllib.parse import unquote
 
 from .types import ClozeNode, Delimeter, Node
 
@@ -9,6 +10,7 @@ BASIC_REGEXP = r"(.*?)\s*(::\?|\?::|::)\s*(.*)"
 STANDALONE_REGEXP = r"^(::\?|\?::|::)\s*(.*)"
 CLOZE_REGEXP = r".*{{c\d+::.*"
 HEADER_TAGS = ["h1", "h2", "h3", "h4", "h5", "h6"]
+
 
 # Returns `True` if `element` is a non-header or a header with
 # a lower priority than `header`, i.e. a "descendant", hierarchically
@@ -38,7 +40,7 @@ class HtmlParser:
         for i, e in enumerate(elements):
             if isinstance(e, Tag):
                 if e.name == "img":
-                    paths.append(e["src"])
+                    paths.append(unquote(e["src"]))
                     e["src"] = e["src"].split("/")[-1]
                 paths.extend(self.strip_image_paths(e.contents))
 
