@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.2 (2025-02-20)
 
 - Handle images with ".." in the path.
 
