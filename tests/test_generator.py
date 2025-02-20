@@ -112,6 +112,12 @@ class TestLoadCards:
                     ],
                     reverse=False,
                 ),
+                BasicCard(
+                    question="Question",
+                    answer='<img alt="Nucleus" src="mouse%20nucleus.png"/>',
+                    path=["Mouse", "Cell Nucleus"],
+                    reverse=False,
+                ),
             ]
         ) == sorted(cards)
 
@@ -131,6 +137,7 @@ class TestPackage:
     def test_media_files(self):
         paths = [
             "sample/Biology/images/flagella.png",
+            "sample/Biology/images/mouse nucleus.png",
             "sample/Biology/images/prokaryotic-capsule.png",
         ]
 

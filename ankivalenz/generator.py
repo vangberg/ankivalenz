@@ -57,13 +57,20 @@ def load_cards(
     cards = []
     image_paths = []
 
-    for file in path.glob("**/*.{}".format(extension)):
-        with file.open() as f:
-            (nodes, paths) = MarkdownParser().parse(f.read())
+    for file_path in path.glob("**/*.{}".format(extension)):
+        with file_path.open() as f:
+            (nodes, ips) = MarkdownParser().parse(f.read())
             cards.extend(NodeParser().parse(nodes))
 
-            for path in paths:
-                image_paths.append(os.path.join(file.parent, path))
+            for ip in ips:
+                # Resolve e.g. "a/../b" to "b"
+                ip = (
+                    file_path.parent.joinpath(ip)
+                    .resolve()
+                    .relative_to(pathlib.Path.cwd())
+                )
+
+                image_paths.append(ip)
 
     return (cards, image_paths)
 

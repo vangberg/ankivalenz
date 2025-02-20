@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Handle images with ".." in the path.
+
 ## 1.0.1 (2025-02-11)
 
 - Handle images with URL-encoded spaces in paths.
