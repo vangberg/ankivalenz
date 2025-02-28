@@ -190,3 +190,8 @@ Ankivalenz supports inline math:
 | `deck_name`  | The name of the Anki deck.                            |
 | `deck_id`    | The ID of the Anki deck.                              |
 | `input_path` | The path to the folder containing the Markdown files. |
+
+## Media files
+
+Importing media files to Anki is tricky, so the recommendation is to avoid
+spaces in the file names. It might work, but it might cause issues.
